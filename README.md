@@ -73,23 +73,23 @@ $ composer require pepipost/pepipost-laravel-driver
 
 #### Step 3 - Configurations 
 
-1) Add the pepipost service provider in config/app.php: (Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to          manually add the ServiceProvider.)
+1) Add the pepipost service provider in config/app.php: (Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to                manually add the ServiceProvider.)
 
-```php
+    ```php
 
-'providers' => [
-    Pepipost\PepipostLaravelDriver\PepipostTransportServiceProvider::class
-];
-```
+    'providers' => [
+        Pepipost\PepipostLaravelDriver\PepipostTransportServiceProvider::class
+    ];
+    ```
 
 2) Add pepipost api key, endpoint in config/services.php
 
 
-```php
-    'pepipost' => [
-        'api_key' => env('PEPIPOST_API_KEY'),
-    ],
- ```
+    ```php
+        'pepipost' => [
+            'api_key' => env('PEPIPOST_API_KEY'),
+        ],
+     ```
  
 
         endpoint config
@@ -105,11 +105,11 @@ $ composer require pepipost/pepipost-laravel-driver
 
 3) Add following in .env file
 
-```dotenv
-MAIL_DRIVER=pepipost
+      ```dotenv
+      MAIL_DRIVER=pepipost
 
-PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
-```
+      PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
+      ```
 
 #### Step 4-  Laravel Steps to create controller and view
 
