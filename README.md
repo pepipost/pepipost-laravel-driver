@@ -123,12 +123,12 @@ function sendMail(){
 
 Mail::send('viewname.name',$data, function ($message) {
     $message
-        ->to($data['recipient'], $data['recipent_name'])
-        ->from($data['sender_email'], $data['sender_name'])
-        ->subject($data['email_subject'])
-        ->cc($data['recipient_cc'],$data['recipient_cc_name'])
-        ->bcc($data['recipient_bcc'],$data['recipient_bcc_name'])
-        ->replyTo($data['reply_to'], $data['recipient_bcc']);
+        ->to('foo@example.com', 'foo_name')
+        ->from('sender@example.com', 'sender_name')
+        ->subject('subject')
+        ->cc('cc@example.com','recipient_cc_name')
+        ->bcc('recipient_bcc'@example.com,'recipient_bcc_name')
+        ->replyTo('reply_to'@example.com,'recipient_bcc')
         ->attach('/myfilename.pdf');
 });
 ```
