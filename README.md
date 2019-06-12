@@ -48,7 +48,7 @@ A free account on Pepipost. If you don't have a one, [click here](https://app.pe
 
 ## Usage
 
-### Configuration in laravel project
+### Configuring laravel project
 
 #### Step 1 - Create New Laravel project 
 
