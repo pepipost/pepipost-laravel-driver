@@ -10,17 +10,11 @@
     "require-dev": {
         "illuminate/container": "~5.5",
         "illuminate/filesystem": "~5.5",
-        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {
             "Pepipost\\LaravelPepipostDriver\\": "src"
         }
-    },
-    "autoload-dev": {
-        "files": [
-            "tests/TestCase.php"
-        ]
     },
     "authors": [
         {
