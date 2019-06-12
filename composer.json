@@ -1,7 +1,7 @@
 {
     "name": "pepipost/laravel-pepipost-driver",
     "description": "This library adds a 'pepipost' mail driver to Laravel.",
-    "keywords": ["laravel", "pepipost"],
+    "keywords": ["laravel", "pepipost","laravel mail driver"],
     "license": "MIT",
     "require": {
         "illuminate/mail": "~5.5",
