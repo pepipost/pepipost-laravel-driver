@@ -127,8 +127,8 @@ Mail::send('viewname.name',$data, function ($message) {
         ->from('sender@example.com', 'sender_name')
         ->subject('subject')
         ->cc('cc@example.com','recipient_cc_name')
-        ->bcc('recipient_bcc'@example.com,'recipient_bcc_name')
-        ->replyTo('reply_to'@example.com,'recipient_bcc')
+        ->bcc('recipient_bcc@example.com','recipient_bcc_name')
+        ->replyTo('reply_to@example.com','recipient_bcc')
         ->attach('/myfilename.pdf');
 });
 ```
@@ -154,8 +154,8 @@ Mail::send('viewname.name',$data, function ($message) {
         ->from('sender@example.com', 'sender_name')
         ->subject('subject')
         ->cc('cc@example.com','recipient_cc_name')
-        ->bcc('recipient_bcc'@example.com,'recipient_bcc_name')
-        ->replyTo('reply_to'@example.com,'recipient_bcc')
+        ->bcc('recipient_bcc@example.com','recipient_bcc_name')
+        ->replyTo('reply_to@example.com','recipient_bcc')
         ->attach('/myfilename.pdf')
         ->embedData([
             'personalizations' => ['attributes'=>['ACCOUNT_BAL'=>'String','NAME'=>'NAME'],'x-apiheader'=>'x-apiheader_value','x-apiheader_cc'=>'x-apiheader_cc_value'],'settings' => ['bcc'=>'bccemail@gmail.com','clicktrack'=>1,'footer'=>1,'opentrack'=>1,'unsubscribe'=>1 ],'tags'=>'tags_value','templateId'=>''
