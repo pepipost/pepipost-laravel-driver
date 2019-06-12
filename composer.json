@@ -9,7 +9,7 @@
     },
     "require-dev": {
         "illuminate/container": "~5.5",
-        "illuminate/filesystem": "~5.5",
+        "illuminate/filesystem": "~5.5"
     },
     "autoload": {
         "psr-4": {
