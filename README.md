@@ -1,5 +1,6 @@
 ![pepipostlogo](https://pepipost.com/wp-content/uploads/2017/07/P_LOGO.png)
 
+[![Open Source Helpers](https://www.codetriage.com/pepipost/pepipost-sdk-php/badges/users.svg)](https://www.codetriage.com/pepipost/pepipost-sdk-php)
 [![Twitter Follow](https://img.shields.io/twitter/follow/pepi_post.svg?style=social&label=Follow)](https://twitter.com/pepi_post)
 
 # Laravel Driver for [Pepipost](http://www.pepipost.com/?utm_campaign=GitHubSDK&utm_medium=GithubSDK&utm_source=GithubSDK)
