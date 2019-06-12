@@ -92,16 +92,16 @@ $ composer require pepipost/pepipost-laravel-driver
 
 ```
 
-  endpoint config
+        endpoint config
 
-If you need to set custom endpoint, you can set any endpoint by using endpoint key. For example, calls to Pepipost Web API through a proxy,configure endpoint in config/services.php.
+        If you need to set custom endpoint, you can set any endpoint by using endpoint key. For example, calls to Pepipost Web          API through a proxy,configure endpoint in config/services.php.
 
-```php    
-'pepipost' => [
-        'api_key' => env('PEPIPOST_API_KEY'),
-        'endpoint' => 'https://api.pepipost.com/v2/sendEmail',
-    ],
-```
+          ```php    
+          'pepipost' => [
+                  'api_key' => env('PEPIPOST_API_KEY'),
+                  'endpoint' => 'https://api.pepipost.com/v2/sendEmail',
+              ],
+          ```
 
 3) Add following in .env file
 
