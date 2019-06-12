@@ -1,5 +1,5 @@
 <?php
-namespace Pepipost\LaravelPepipostDriver\Transport;
+namespace Pepipost\PepipostLaravelDriver\Transport;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -67,6 +67,7 @@ class PepipostTransport extends Transport
             'headers' => [
 		'api_key'      => $this->apiKey,
                 'Content-Type' => 'application/json',
+		'user-agent'   => 'pepi-laravel-lib v1',
             ],
             'json' => $data,
         ];
