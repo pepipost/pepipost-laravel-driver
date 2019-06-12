@@ -1,0 +1,45 @@
+{
+    "name": "pepipost/laravel-pepipost-driver",
+    "description": "This library adds a 'pepipost' mail driver to Laravel.",
+    "keywords": ["laravel", "pepipost"],
+    "license": "MIT",
+    "require": {
+        "illuminate/mail": "~5.5",
+        "guzzlehttp/guzzle": "~5.3|~6.2"
+    },
+    "require-dev": {
+        "illuminate/container": "~5.5",
+        "illuminate/filesystem": "~5.5",
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pepipost\\LaravelPepipostDriver\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/TestCase.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Rishabh",
+            "email": "rishabhmishra625@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/s-ichikawa/laravel-sendgrid-driver/issues"
+    },
+    "suggest": {
+        "s-ichikawa/sendgrid-api-builder": "support to build json for sendgrid api"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pepipost\\LaravelPepipostDriver\\PepipostTransportServiceProvider"
+            ]
+        }
+    }
+}
+
