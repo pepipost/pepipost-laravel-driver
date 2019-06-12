@@ -115,42 +115,42 @@ PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
 
 1) Define Controller
 
-```bash
+    ```bash
 
-php artisan make:controller TestController
+    php artisan make:controller TestController
 
-```
+    ```
 2) create file in resources/views/viewname/name.blade.php 
-   and include your email content 
+    and include your email content 
 
-include following function sendMail in TestController to send
-viewname.name as content of email and initialize $data to use it on view page
+    include following function sendMail in TestController to send
+    viewname.name as content of email and initialize $data to use it on view page
 
-```php
-function sendMail(){
+      ```php
+      function sendMail(){
 
-Mail::send('viewname.name',$data, function ($message) {
-    $message
-        ->to('foo@example.com', 'foo_name')
-        ->from('sender@example.com', 'sender_name')
-        ->subject('subject')
-        ->cc('cc@example.com','recipient_cc_name')
-        ->bcc('recipient_bcc@example.com','recipient_bcc_name')
-        ->replyTo('reply_to@example.com','recipient_bcc')
-        ->attach('/myfilename.pdf');
-});
+      Mail::send('viewname.name',$data, function ($message) {
+          $message
+              ->to('foo@example.com', 'foo_name')
+              ->from('sender@example.com', 'sender_name')
+              ->subject('subject')
+              ->cc('cc@example.com','recipient_cc_name')
+              ->bcc('recipient_bcc@example.com','recipient_bcc_name')
+              ->replyTo('reply_to@example.com','recipient_bcc')
+              ->attach('/myfilename.pdf');
+      });
 
-return 'Email sent successfully';
-}
-```
+      return 'Email sent successfully';
+      }
+      ```
 
 3) Create Route in routes/web.php
 
-```php
+      ```php
 
-Route::get('/send/email', 'TestController@sendMail')->name('sendEmail');
+      Route::get('/send/email', 'TestController@sendMail')->name('sendEmail');
 
-```
+      ```
 
 #### Step 5 - Testing
 
