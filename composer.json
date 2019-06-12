@@ -29,10 +29,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/s-ichikawa/laravel-sendgrid-driver/issues"
-    },
-    "suggest": {
-        "s-ichikawa/sendgrid-api-builder": "support to build json for sendgrid api"
+        "issues": "https://github.com/pepipost/laravel-pepipost-driver/issues"
     },
     "extra": {
         "laravel": {
