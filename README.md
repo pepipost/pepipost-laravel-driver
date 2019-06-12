@@ -50,11 +50,13 @@ A free account on Pepipost. If you don't have a one, [click here](https://app.pe
 
 ### Configuration in laravel project
 
-Create Laravel project 
+#### Step 1 - Create New Laravel project 
 
+```bash 
 laravel new testproject
+```
 
-Add the package to your composer.json and run composer update.
+#### Step 2 - Add the package to your composer.json and run composer update.
 
 ```json
 
@@ -62,11 +64,15 @@ Add the package to your composer.json and run composer update.
     "pepipost/laravel-pepipost-driver": "~1.0"
 },
 ```
-or install with composer
+#### or install with composer
 
+```bash
 $ composer require pepipost/laravel-pepipost-driver
+```
 
-Add the pepipost service provider in config/app.php: (Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.)
+#### Step 3 - Configurations 
+
+1) Add the pepipost service provider in config/app.php: (Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to          manually add the ServiceProvider.)
 
 ```php
 
@@ -75,7 +81,7 @@ Add the pepipost service provider in config/app.php: (Laravel 5.5+ uses Package 
 ];
 ```
 
-in config/services.php
+2) Add pepipost api key, endpoint in config/services.php
 
 
 ```php
@@ -85,7 +91,7 @@ in config/services.php
 
 ```
 
-endpoint config
+  endpoint config
 
 If you need to set custom endpoint, you can set any endpoint by using endpoint key. For example, calls to Pepipost Web API through a proxy,configure endpoint in config/services.php.
 
@@ -96,27 +102,28 @@ If you need to set custom endpoint, you can set any endpoint by using endpoint k
     ],
 ```
 
-in .env file add following
+3) Add following in .env file
 
-.env
 
 MAIL_DRIVER=pepipost
 
 PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
 
 
-### Laravel Steps
+#### Step 4-  Laravel Steps to create controller and view
 
-Define Controller
+1) Define Controller
 
 ```bash
 
 php artisan make:controller TestController
 
 ```
-include following function sendMail
+2) create file in resources/views/viewname/name.blade.php 
+   and include your email content 
 
-viewname.name will be sent as content of email
+include following function sendMail in TestController to send
+viewname.name as content of email
 
 ```php
 function sendMail(){
@@ -131,17 +138,27 @@ Mail::send('viewname.name',$data, function ($message) {
         ->replyTo('reply_to@example.com','recipient_bcc')
         ->attach('/myfilename.pdf');
 });
-```
-create file in resources/views/viewname/name.blade.php 
-and include your email content 
 
-Create Route in routes/web.php
+return 'Email sent successfully';
+}
+```
+
+3) Create Route in routes/web.php
 
 ```php
 
 Route::get('/send/email', 'TestController@sendMail')->name('sendEmail');
 
 ```
+
+#### Step 5 - Testing
+
+Host your laravel project and hit http://your_url.com/send/email
+
+This will send email and display Email sent successfully on browser.
+
+#### Additional Usage
+
 IF want to pass others parameters of Pepipost SendEmail API use embedData function and include below code as below
 Add parameters as per your requirement. Do not use multiple to's,cc's,bcc's with this method.
 
@@ -159,7 +176,10 @@ Mail::send('viewname.name',$data, function ($message) {
         ->attach('/myfilename.pdf')
         ->embedData([
             'personalizations' => ['attributes'=>['ACCOUNT_BAL'=>'String','NAME'=>'NAME'],'x-apiheader'=>'x-apiheader_value','x-apiheader_cc'=>'x-apiheader_cc_value'],'settings' => ['bcc'=>'bccemail@gmail.com','clicktrack'=>1,'footer'=>1,'opentrack'=>1,'unsubscribe'=>1 ],'tags'=>'tags_value','templateId'=>''
-        ],'pepipostapi');        
+        ],'pepipostapi');
+        
+ return 'Email sent successfully';
+}       
 
 ```
 
@@ -180,6 +200,9 @@ Mail::send('viewname.name',$data, function ($message) {
                     'personalizations' => [['recipient'=>'foo@example.com','attributes'=>['ACCOUNT_BAL'=>'String','NAME'=>'name'],'recipient_cc'=>['cc@example.com','cc2@example.com'],'recipient_bcc'=>['bcc@example.com','bcc2@example.com'],'x-apiheader'=>'x-apiheader_value','x-apiheader_cc'=>'x-apiheader_cc_value'],['recipient'=>'foo@example.com','attributes'=>['ACCOUNT_BAL'=>'String','NAME'=>'name'],'x-apiheader'=>'x-apiheader_value','x-apiheader_cc'=>'x-apiheader_cc_value']],'settings' => ['bcc'=>'bccemail@gmail.com','clicktrack'=>1,'footer'=>1,'opentrack'=>1,'unsubscribe'=>1 ],'tags'=>'tags_value','templateId'=>''
                 ],'pepipostapi');
         });
+        
+return 'Email sent successfully';
+}
 
 ```
 
