@@ -61,13 +61,13 @@ laravel new testproject
 ```json
 
 "require": {
-    "pepipost/laravel-pepipost-driver": "~1.0"
+    "pepipost/pepipost-laravel-driver": "~1.0"
 },
 ```
 #### or install with composer
 
 ```bash
-$ composer require pepipost/laravel-pepipost-driver
+$ composer require pepipost/pepipost-laravel-driver
 ```
 
 #### Step 3 - Configurations 
@@ -77,7 +77,7 @@ $ composer require pepipost/laravel-pepipost-driver
 ```php
 
 'providers' => [
-    Pepipost\LaravelPepipostDriver\PepipostTransportServiceProvider::class
+    Pepipost\PepipostLaravelDriver\PepipostTransportServiceProvider::class
 ];
 ```
 
@@ -104,11 +104,11 @@ If you need to set custom endpoint, you can set any endpoint by using endpoint k
 
 3) Add following in .env file
 
-
+```dotenv
 MAIL_DRIVER=pepipost
 
 PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
-
+```
 
 #### Step 4-  Laravel Steps to create controller and view
 
@@ -123,7 +123,7 @@ php artisan make:controller TestController
    and include your email content 
 
 include following function sendMail in TestController to send
-viewname.name as content of email
+viewname.name as content of email and initialize $data to use it on view page
 
 ```php
 function sendMail(){
@@ -153,7 +153,7 @@ Route::get('/send/email', 'TestController@sendMail')->name('sendEmail');
 
 #### Step 5 - Testing
 
-Host your laravel project and hit http://your_url.com/send/email
+Host your laravel project and enter url- http://your_url.com/send/email in browser
 
 This will send email and display Email sent successfully on browser.
 
@@ -205,9 +205,6 @@ return 'Email sent successfully';
 }
 
 ```
-
-
-
 
 <a name="announcements"></a>
 # Announcements
