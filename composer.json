@@ -1,5 +1,5 @@
 {
-    "name": "pepipost/laravel-pepipost-driver",
+    "name": "pepipost/pepipost-laravel-driver",
     "description": "This library adds a 'pepipost' mail driver to Laravel.",
     "keywords": ["laravel", "pepipost","laravel mail driver"],
     "license": "MIT",
