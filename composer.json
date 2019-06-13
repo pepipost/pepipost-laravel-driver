@@ -20,10 +20,14 @@
         {
             "name": "Rishabh",
             "email": "rishabhmishra625@gmail.com"
+        },
+        {
+            "name": "DX",
+            "email": "dx@pepipost.com"
         }
     ],
     "support": {
-        "issues": "https://github.com/pepipost/laravel-pepipost-driver/issues"
+        "issues": "https://github.com/pepipost/pepipost-laravel-driver/issues"
     },
     "extra": {
         "laravel": {
