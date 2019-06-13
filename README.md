@@ -1,7 +1,7 @@
 ![pepipostlogo](https://pepipost.com/wp-content/uploads/2017/07/P_LOGO.png)
 
 [![Packagist](https://img.shields.io/packagist/dt/pepipost/pepipost-laravel-driver.svg?style=flat-square)](https://packagist.org/packages/pepipost/pepipost-laravel-driver)
-[![Packagist](https://img.shields.io/github/contributors/pepipost/pepipost-laravel-driver.svg)](https://github.com/pepipost/pepipost/pepipost-laravel-driver)
+[![Packagist](https://img.shields.io/github/contributors/pepipost/pepipost-laravel-driver.svg)](https://github.com/pepipost/pepipost-laravel-driver)
 [![Packagist](https://img.shields.io/packagist/l/pepipost/pepipost-laravel-driver.svg)](https://packagist.org/packages/pepipost/pepipost-laravel-driver)
 [![Open Source Helpers](https://www.codetriage.com/pepipost/pepipost-laravel-driver/badges/users.svg)](https://www.codetriage.com/pepipost/pepipost-laravel-driver)
 [![Twitter Follow](https://img.shields.io/twitter/follow/pepi_post.svg?style=social&label=Follow)](https://twitter.com/pepi_post)
