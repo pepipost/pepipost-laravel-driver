@@ -5,7 +5,7 @@ use GuzzleHttp\Client as HttpClient;
 use Illuminate\Mail\TransportManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Pepipost\LaravelPepipostDriver\Transport\PepipostTransport;
+use Pepipost\PepipostLaravelDriver\Transport\PepipostTransport;
 
 class PepipostTransportServiceProvider extends ServiceProvider
 {
