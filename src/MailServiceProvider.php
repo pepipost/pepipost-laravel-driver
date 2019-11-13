@@ -1,5 +1,5 @@
 <?php
-namespace Pepipost\LaravelPepipostDriver;
+namespace Pepipost\PepipostLaravelDriver;
 
 class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider
 {
