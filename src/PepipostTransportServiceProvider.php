@@ -1,5 +1,5 @@
 <?php
-namespace Pepipost\LaravelPepipostDriver;
+namespace Pepipost\PepipostLaravelDriver;
 
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Mail\TransportManager;
