@@ -40,11 +40,11 @@ For any update of this library check [Releases](https://github.com/pepipost/lara
 
 ### Prerequisites
 
-[PHP > 7.1.3](https://www.php.net/manual/en/install.php)
+[PHP >= 7.2.5](https://www.php.net/manual/en/install.php)
 
 [Composer v1.8](https://getcomposer.org/download/)
 
-[Laravel 5.8](https://laravel.com/docs/5.8/installation)
+[Laravel 7](https://laravel.com/docs/7.x/installation)
 
 guzzlehttp/guzzle 6.2.0
 
