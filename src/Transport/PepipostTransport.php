@@ -3,7 +3,9 @@ namespace Pepipost\PepipostLaravelDriver\Transport;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Illuminate\Mail\Transport\Transport;
 use Swift_Attachment;
 use Swift_Image;
@@ -13,10 +15,9 @@ use Swift_MimePart;
 class PepipostTransport extends Transport
 {
     
-
     const SMTP_API_NAME = 'pepipostapi';
     const MAXIMUM_FILE_SIZE = 20480000;
-    const BASE_URL = 'https://api.pepipost.com/v2/sendEmail';
+    const BASE_URL = 'https://api.pepipost.com/v5/mail/send';
 
     /**
      * @var Client
@@ -311,7 +312,7 @@ class PepipostTransport extends Transport
      */
     private function post($payload)
     {
-        return $this->client->post($this->endpoint, $payload);
+        return $this->client->request('POST', $this->endpoint, $payload);
     }
 }
 

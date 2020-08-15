@@ -103,7 +103,7 @@ $ composer require pepipost/pepipost-laravel-driver
               
           'pepipost' => [
                   'api_key' => env('PEPIPOST_API_KEY'),
-                  'endpoint' => 'https://api.pepipost.com/v2/sendEmail',
+                  'endpoint' => 'https://api.pepipost.com/v5/mail/send',
               ],
 
 3) Add following in .env file
