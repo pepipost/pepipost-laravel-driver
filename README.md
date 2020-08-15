@@ -46,7 +46,7 @@ For any update of this library check [Releases](https://github.com/pepipost/lara
 
 [Laravel 7](https://laravel.com/docs/7.x/installation)
 
-guzzlehttp/guzzle 6.2.0
+[Guzzle 6.3](https://github.com/guzzle/guzzle)
 
 A free account on Pepipost. If you don't have a one, [click here](https://app.pepipost.com) to signup.
 
