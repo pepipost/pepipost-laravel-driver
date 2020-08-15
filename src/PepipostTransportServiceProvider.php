@@ -20,10 +20,11 @@ class PepipostTransportServiceProvider extends ServiceProvider
             /** @var $mail_manager MailManager */
             $mail_manager->extend("pepipost", function($config){
                 $client = new HttpClient(Arr::get($config, 'guzzle', []));
-                $endpoint = isset($config['endpoint']) ? $config['endpoint'] : null;
 
-                return new PepipostTransport($client, $config['api_key'], $endpoint);
+                $pepipost_service_config = config('services.pepipost');
+                $endpoint = isset($pepipost_service_config['endpoint']) ? $pepipost_service_config['endpoint'] : null;
 
+                return new PepipostTransport($client, $pepipost_service_config['api_key'], $endpoint);
             });
         });
     }
