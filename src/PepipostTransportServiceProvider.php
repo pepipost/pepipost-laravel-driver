@@ -10,7 +10,7 @@ use Pepipost\PepipostLaravelDriver\Transport\PepipostTransport;
 class PepipostTransportServiceProvider extends ServiceProvider
 {
     /**
-     * Register the Swift Transport instance.
+     * Register the Pepipost Transport instance.
      *
      * @return void
      */
