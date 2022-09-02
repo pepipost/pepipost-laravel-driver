@@ -66,7 +66,7 @@ laravel new testproject
 
 ```json
 "require": {
-    "pepipost/pepipost-laravel-driver": "~2.0.0"
+    "pepipost/pepipost-laravel-driver": "~3.0.0"
 },
 ```
 #### or install with composer
