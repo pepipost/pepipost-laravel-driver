@@ -18,7 +18,7 @@ We are trying to make our libraries Community Driven- which means we need your h
 
 We welcome any sort of contribution to this library.
 
-The latest 2.0.0 version of this library provides is fully compatible with the latest Pepipost v5.1 API.
+The latest 3.0.0 version of this library provides is fully compatible with the latest Pepipost v5.1 API.
 
 For any update of this library check [Releases](https://github.com/pepipost/laravel-pepipost-driver/releases).
 
@@ -44,7 +44,9 @@ For any update of this library check [Releases](https://github.com/pepipost/lara
 
 [Composer v2.3.0](https://getcomposer.org/download/)
 
-[Laravel >= 8.x ](https://laravel.com/docs/9.x/installation)
+[Laravel >= 9.x ](https://laravel.com/docs/9.x/installation)
+
+[Illuminate Mail ^9.0](https://packagist.org/packages/illuminate/mail)
 
 [Guzzle ^7.2](https://github.com/guzzle/guzzle)
 
@@ -75,14 +77,14 @@ $ composer require pepipost/pepipost-laravel-driver
 
 #### Step 3 - Configurations 
 
-2) Add pepipost api key, endpoint in config/services.php
+1) Add pepipost api key, endpoint in config/services.php
 
     ```php
     'pepipost' => [
         'api_key' => env('PEPIPOST_API_KEY'),
     ],
      ```
-    ``` txt    
+    ``` php    
     Endpoint config:
     If you need to set custom endpoint, you can set any endpoint by using endpoint key.
     For example,calls to Pepipost Web API through a proxy,configure endpoint in config/services.php.
@@ -93,13 +95,22 @@ $ composer require pepipost/pepipost-laravel-driver
       ],
     ```
 
-3) Add following in .env file
+2) Add following in .env file
       ```dotenv
       MAIL_MAILER=pepipost # Needed to send through pepipipost api
       PEPIPOST_API_KEY='YOUR_PEPIPOST_API_KEY'
       ```
 
-#### Step 4-  Laravel Steps to create controller and view
+2) Add following in config/mail.php
+      ```php
+      'mailers' => [
+        'pepipost' => [
+            'transport' => 'pepipost',
+        ],
+    ],
+      ```
+
+#### Step 4 - Laravel Steps to create controller and view
 
 1) Define Controller
 
@@ -254,7 +265,7 @@ class TestEmail extends Mailable
             ->view('mailtemplate.test')
             ->from('info@domain.com')
             # Not required for this example
-            // ->cc('user1', 'vikram')
+            // ->cc('usercc@domain.com', 'username')
             ->subject("Demo email from laravel")
             # Store attachment in the "storage" path
             ->attach(storage_path('Discussions.pdf'))
@@ -281,7 +292,7 @@ class TestEmail extends Mailable
                                 "email" => "ccrecipient2@domain.com",
                             ]
                         ],
-                        // This will override the above cc_recipient specified in the mailer method, if provided.
+                        // This will override the above bcc_recipient specified in the mailer method, if provided.
                         "bcc" => [
                             [
                                 "email" => "bccrecipient1@domain.com",
@@ -292,7 +303,7 @@ class TestEmail extends Mailable
                         "token_to" => "tracker_phone",
                         # X-Api header for cc mail
                         "token_cc" => "tracker_cc",
-                        # X-Api header for cc mail
+                        # X-Api header for bcc mail
                         "token_bcc" => "tracker_bcc"
                     ],
                     [
@@ -313,7 +324,7 @@ class TestEmail extends Mailable
                     "unsubscribe_track" => true,
                     "hepf" => false
                 ],
-                # For using pepipost templates instead of view email templates
+                # For using pepipost templates instead of view templates
                 "template_id" => 1234
             ]
         );
@@ -324,7 +335,7 @@ class TestEmail extends Mailable
 <a name="announcements"></a>
 # Announcements
 
-v2.0.0 has been released! Please see the [release notes](https://github.com/pepipost/laravel-pepipost-driver/releases/) for details.
+v3.0.0 has been released! Please see the [release notes](https://github.com/pepipost/laravel-pepipost-driver/releases/) for details.
 
 All updates to this library are documented in our [releases](https://github.com/pepipost/laravel-pepipost-driver/releases). For any queries, feel free to reach out us at devrel@netcorecloud.com
 
