@@ -4,12 +4,12 @@
     "keywords": ["laravel", "pepipost", "laravel mail driver"],
     "license": "MIT",
     "require": {
-        "illuminate/mail": "^8.0",
-        "guzzlehttp/guzzle": "^6.3 || ^7.0"
+        "illuminate/mail": "^9.0",
+        "guzzlehttp/guzzle": "^7.2"
     },
     "require-dev": {
-        "illuminate/container": "^8.75",
-        "illuminate/filesystem": "^8.75"
+        "illuminate/container": "^9.0",
+        "illuminate/filesystem": "^9.0"
     },
     "autoload": {
         "psr-4": {
