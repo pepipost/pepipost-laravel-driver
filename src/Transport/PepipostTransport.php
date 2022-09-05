@@ -8,20 +8,22 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Illuminate\Mail\Transport\Transport;
 use Illuminate\Support\Arr;
-use Swift_Attachment;
-use Swift_Image;
-use Swift_Mime_SimpleMessage;
-use Swift_MimePart;
-
+use Symfony\Component\Mailer\SentMessage;
+use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\MessageConverter;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Email;
 use Pepipost\PepipostLaravelDriver\Pepipost;
 
-class PepipostTransport extends Transport
+class PepipostTransport extends AbstractTransport
 {
     use Pepipost {
         pepiDecode as decode;
     }
 
-    const SMTP_API_NAME = 'pepipostapi/request-body-parameter';
+    const SMTP_API_NAME = 'pepipostapi';
+    const REQUEST_BODY_PARAMETER = 'pepipostapi/request-body-parameter';
     const BASE_URL = 'https://emailapi.netcorecloud.net/v5.1/mail/send';
 
     /**
@@ -39,38 +41,39 @@ class PepipostTransport extends Transport
         $this->apiKey = $api_key;
         $this->endpoint = isset($endpoint) ? $endpoint : self::BASE_URL;
         $this->attachments = [];
+        parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+    protected function doSend(SentMessage $message): void
     {
-        $this->beforeSendPerformed($message);
+        $email = MessageConverter::toEmail($message->getOriginalMessage());
         
         $data = [
-            'from' => $this->getFrom($message),
-            'subject' => $message->getSubject(),
+            'from' => $this->getFrom($email),
+            'subject' => $email->getSubject(),
         ];
         
-        if($message->getTo()) {
-            $data['personalizations'] = $this->getPersonalizations($message);
+        if($email->getTo()) {
+            $data['personalizations'] = $this->getPersonalizations($email);
         }
 
-        if ($contents = $this->getContents($message)) {
+        if ($contents = $this->getContents($email)) {
             $data['content'] = [$contents];
         }
 
-        if ($reply_to = $this->getReplyTo($message)) {
+        if ($reply_to = $this->getReplyTo($email)) {
             $data['reply_to'] = $reply_to;
         }
 
-        $attachments = $this->getAttachments($message);
+        $attachments = $this->getAttachments($email);
         if (count($attachments) > 0) {
             $data['attachments'] = $attachments;
         }
 
-        $data = $this->setParameters($message, $data);
+        $data = $this->setParameters($email, $data);
 
         $payload = [
             'headers' => [
@@ -86,19 +89,20 @@ class PepipostTransport extends Transport
     /**
      * Get From Addresses.
      *
-     * @param Swift_Mime_SimpleMessage $message
+     * @param Email $email
      * @return array
      */
-    private function getFrom(Swift_Mime_SimpleMessage $message)
+    private function getFrom(Email $email): array
     {
-        if ($message->getFrom()) {
-            foreach ($message->getFrom() as $email => $name) {
-                if($name){
-                    $fromname = $name;
+        if ($email->getFrom()) {
+            foreach ($email->getFrom() as $from) {
+                $fromadd = $from->getAddress();
+                if($from->getName()){
+                    $fromname = $from->getName();
                 } else {
-                    $fromname = explode('@', $email)[0];
+                    $fromname = explode('@', $from->getAddress())[0];
                 }
-                return ['email' => $email, 'name' => $fromname];
+                return ['email' => $fromadd, 'name' => $fromname];
             }
         }
         return [];
@@ -107,57 +111,51 @@ class PepipostTransport extends Transport
     /**
      * Get ReplyTo Addresses.
      *
-     * @param Swift_Mime_SimpleMessage $message
-     * @return array
+     * @param Email $email
+     * @return string
      */
-    private function getReplyTo(Swift_Mime_SimpleMessage $message)
+    private function getReplyTo(Email $email): string
     {
-        if ($message->getReplyTo()) {
-            foreach ($message->getReplyTo() as $email => $name) {
-                return $email;
+        if ($email->getReplyTo()) {
+            foreach ($email->getReplyTo() as $emailid => $name) {
+                return $emailid;
             }
         }
-        return [];
+        return '';
     }
 
     /**
      * Get contents.
      *
-     * @param Swift_Mime_SimpleMessage $message
+     * @param Email $email
      * @return array
      */
-    private function getContents(Swift_Mime_SimpleMessage $message)
-    {   
-        $contentType = $message->getContentType();
-        if (is_null($message->getBody())) {
-            return null;
-        }
+    private function getContents(Email $email): array
+    {
         return [
             'type' => 'html',
-            'value' => $message->getBody()
+            'value' => $email->getHtmlBody()
         ];
     }
 
     /**
-     * @param Swift_Mime_SimpleMessage $message
+     * @param Email $email
      * @return array
      */
-    private function getAttachments(Swift_Mime_SimpleMessage $message)
+    private function getAttachments(Email $email): array
     {
         $attachments = [];
-        foreach ($message->getChildren() as $attachment) {
-            if ((!$attachment instanceof Swift_Attachment && !$attachment instanceof Swift_Image)
-                || $attachment->getFilename() === self::SMTP_API_NAME
-            ){
+        foreach ($email->getAttachments() as $attachment) {
+            $filename = $this->getAttachmentName($attachment);
+            if ($filename === self::REQUEST_BODY_PARAMETER) {
                 continue;
             }
 
             $attachments[] = [
                 'content' => base64_encode($attachment->getBody()),
-                'name' => $attachment->getFilename()
+                'name' => $filename
             ];
         }
-
         return $this->attachments = $attachments;
     }
 
@@ -182,30 +180,27 @@ class PepipostTransport extends Transport
     /**
      * Set Request Body Parameters
      *
-     * @param Swift_Mime_SimpleMessage $message
+     * @param Email $email
      * @param array $data
      * @return array
      * @throws \Exception
      */
-    protected function setParameters(Swift_Mime_SimpleMessage $message, $data)
+    protected function setParameters(Email $email, array $data): array
     {   
-        $this->numberOfRecipients = 0;
-
+        //$this->numberOfRecipients = 0;
         $smtp_api = [];
         # Taking as attachment since we are embedding the parameters taken from the users
-        foreach ($message->getChildren() as $attachment) {
-            if (!$attachment instanceof Swift_Image
-                || !in_array(self::SMTP_API_NAME, [$attachment->getFilename(), $attachment->getContentType()])
-            ) {
-                continue;
+        foreach ($email->getAttachments() as $attachment) {
+            $name = $attachment->getPreparedHeaders()->getHeaderParameter('Content-Disposition', 'filename');
+            if ($name === self::REQUEST_BODY_PARAMETER) {
+                $smtp_api = self::decode($attachment->getBody());
             }
-            $smtp_api = self::decode($attachment->getBody());
-        }
-        
-        if (!is_array($smtp_api)) {
-            return $data;
         }
 
+        if (count($smtp_api) < 1) {
+            return $data;
+        }
+        
         foreach ($smtp_api as $key => $val) {
             switch ($key) {
                 case 'settings':
@@ -224,6 +219,7 @@ class PepipostTransport extends Transport
                     $val = array_merge($this->attachments, $val);
                     break;
             }
+
             Arr::set($data, $key, $val);
         }
 
@@ -231,11 +227,32 @@ class PepipostTransport extends Transport
     }
 
     /**
+     * @param Address[] $addresses
+     * @return array
+     */
+    private function setAddress(array $addresses, string $type=null): array
+    {
+        $recipients = [];
+        foreach ($addresses as $address) {
+            $recipient = ['email' => $address->getAddress()];
+            if (!$type){
+                if ($address->getName() !== '') {
+                    $recipient['name'] = $address->getName();
+                } else {
+                    $recipient['name'] = explode('@',$address->getAddress())[0];
+                }
+            }
+            $recipients[] = $recipient;
+        }
+        return $recipients;
+    }
+
+    /**
      * @param array $data
      * @param array $personalizations
      * @return void
      */
-    private function setPersonalizations(&$data, $personalizations)
+    private function setPersonalizations(array &$data, array $personalizations): void
     {   
         foreach ($personalizations as $index => $params) {
             foreach ($params as $key => $val) {
@@ -248,36 +265,19 @@ class PepipostTransport extends Transport
     }
         
     /**
-     * @param Swift_Mime_SimpleMessage $message
+     * @param Email $email
      * @return array[]
      */
-    private function getPersonalizations(Swift_Mime_SimpleMessage $message)
+    private function getPersonalizations(Email $email): array
     {
-        $setter = function (array $addresses) {
-            $recipients = [];
-            foreach ($addresses as $email => $name) {
-                $address = [];
-                $address['email'] = $email;
-                if ($name) {
-                    $address['name'] = $name;
-                } else {
-                    $address['name'] = explode('@', $email)[0];
-                }
-                $recipients[] = $address;
-            }
-            return $recipients;
-        };
+        $personalization['to'] = $this->setAddress($email->getTo());
 
-        // print_r($setter($message->getTo()));exit;
-
-        $personalization['to'] = $setter($message->getTo());
-
-        if ($cc = $message->getCc()) {
-            $personalization['cc'] = $setter($cc);
+        if (count($email->getCc()) > 0) {
+            $personalization['cc'] = $this->setAddress($email->getCc(), 'cc');
         }
 
-        if ($cc = $message->getBcc()) {
-            $personalization['bcc'] = $setter($bcc);
+        if (count($email->getBcc()) > 0) {
+            $personalization['bcc'] = $this->setAddress($email->getBcc(), 'bcc');
         }
 
         return [$personalization];
@@ -292,12 +292,10 @@ class PepipostTransport extends Transport
 
     /**
      * @param $payload
-     * @throws GuzzleException
      * @return Response
-     * 
      */
     private function post($payload)
-    {   
+    {
         return $this->client->request('POST', $this->endpoint, $payload);
     }
 

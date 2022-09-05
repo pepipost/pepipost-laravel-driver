@@ -3,7 +3,7 @@ namespace Pepipost\PepipostLaravelDriver;
 
 use Illuminate\Mail\Mailable;
 use Pepipost\PepipostLaravelDriver\Transport\PepipostTransport;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 trait Pepipost
 {
@@ -13,9 +13,9 @@ trait Pepipost
     */
     public function pepipost($params)
     {
-        if (($this instanceof Mailable || $this instanceof MailMessage) && $this->mailDriver() === "pepipost") {
-            $this->withSwiftMessage(function (Swift_Message $message) use ($params) {
-                $message->embed(new \Swift_Image(static::pepiEncode($params), PepipostTransport::SMTP_API_NAME));
+        if (($this instanceof Mailable) && $this->mailDriver() === "pepipost") {
+            $this->withSymfonyMessage(function (Email $email) use ($params) {
+                $email->embed(static::pepiEncode($params), PepipostTransport::REQUEST_BODY_PARAMETER);
             });
         }
         return $this;
