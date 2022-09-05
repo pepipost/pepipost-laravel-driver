@@ -18,7 +18,7 @@ We are trying to make our libraries Community Driven- which means we need your h
 
 We welcome any sort of contribution to this library.
 
-The latest 3.0.0 version of this library provides is fully compatible with the latest Pepipost v5.1 API.
+The latest 2.0.0 version of this library provides is fully compatible with the latest Pepipost v5.1 API.
 
 For any update of this library check [Releases](https://github.com/pepipost/laravel-pepipost-driver/releases).
 
@@ -40,15 +40,15 @@ For any update of this library check [Releases](https://github.com/pepipost/lara
 
 ### Prerequisites
 
-[PHP >= 8.0](https://www.php.net/manual/en/install.php)
+[PHP >= 7.3](https://www.php.net/manual/en/install.php)
 
 [Composer v2.3.0](https://getcomposer.org/download/)
 
-[Laravel >= 9.x ](https://laravel.com/docs/9.x/installation)
+[Laravel >= 8.x && <9](https://laravel.com/docs/9.x/installation)
 
-[Illuminate Mail ^9.0](https://packagist.org/packages/illuminate/mail)
+[Illuminate Mail ^8.0](https://packagist.org/packages/illuminate/mail)
 
-[Guzzle ^7.2](https://github.com/guzzle/guzzle)
+[Guzzle ^6.3 || ^7.0](https://github.com/guzzle/guzzle)
 
 A free account on Pepipost. If you don't have a one, [click here](https://app.pepipost.com) to signup.
 
@@ -66,7 +66,7 @@ laravel new testproject
 
 ```json
 "require": {
-    "pepipost/pepipost-laravel-driver": "~3.0.0"
+    "pepipost/pepipost-laravel-driver": "~2.0.0"
 },
 ```
 #### or install with composer
@@ -206,7 +206,7 @@ $ composer require pepipost/pepipost-laravel-driver
           public function build()
           {
             return $this
-              ->view('mailtemplate.test')
+              ->view('mailtemplates.test')
               ->from('mail@sendingdomain.com')
               ->subject("Demo email from laravel")
               ->with([ 'test_message' => $this->data['message'] ]);
@@ -335,7 +335,7 @@ class TestEmail extends Mailable
 <a name="announcements"></a>
 # Announcements
 
-v3.0.0 has been released! Please see the [release notes](https://github.com/pepipost/laravel-pepipost-driver/releases/) for details.
+v2.0.0 has been released! Please see the [release notes](https://github.com/pepipost/laravel-pepipost-driver/releases/) for details.
 
 All updates to this library are documented in our [releases](https://github.com/pepipost/laravel-pepipost-driver/releases). For any queries, feel free to reach out us at devrel@netcorecloud.com
 
